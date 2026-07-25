@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+
+# environment
+.env
+.env.*
+!.env.example
+
+# build output
+dist/
+build/
+*.tsbuildinfo
+
+# drizzle output (migrations are regenerated on demand from the schema)
+packages/db/drizzle/
+
+# test coverage
+coverage/
+
+# scraper HTTP cache & logs
+.cache/
+*.log
+
+# editor / OS noise
+.DS_Store
+.idea/
+.vscode/

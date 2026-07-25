@@ -1,0 +1,33 @@
+{
+  "name": "grailwatch",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Collectibles accumulation detector — scores quiet-accumulation probability nightly by finding price/volume movement that diverges from flat public attention",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,magenta \"pnpm --filter @grailwatch/api run dev\" \"pnpm --filter @grailwatch/web run dev\"",
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "typecheck": "pnpm -r run typecheck",
+    "db:generate": "pnpm --filter @grailwatch/db run generate",
+    "db:migrate": "pnpm --filter @grailwatch/db run generate && pnpm --filter @grailwatch/db run migrate",
+    "seed": "pnpm --filter @grailwatch/db run seed",
+    "seed:regen-csvs": "pnpm --filter @grailwatch/db run generate-csvs",
+    "job:ingest": "pnpm --filter @grailwatch/api run job:ingest",
+    "job:score": "pnpm --filter @grailwatch/api run job:score",
+    "job:deliver": "pnpm --filter @grailwatch/api run job:deliver"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "typescript": "^5.9.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

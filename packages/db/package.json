@@ -1,0 +1,31 @@
+{
+  "name": "@grailwatch/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema.ts",
+    "./seed-universe": "./src/seed-universe.ts"
+  },
+  "scripts": {
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "seed": "tsx src/seed.ts",
+    "generate-csvs": "tsx scripts/generate-seed-csvs.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@grailwatch/shared": "workspace:*",
+    "dotenv": "^16.6.1",
+    "drizzle-orm": "^0.44.4",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "@types/pg": "^8.15.5",
+    "drizzle-kit": "^0.31.4",
+    "tsx": "^4.20.4",
+    "typescript": "^5.9.2"
+  }
+}
