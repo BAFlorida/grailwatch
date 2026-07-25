@@ -7,12 +7,15 @@ import { z } from "zod";
  * Load the nearest .env walking up from cwd — pnpm --filter runs scripts from
  * package directories, so the repo-root .env must be found by ascent.
  */
+let envFileDir: string | null = null;
+
 function loadDotenv(): void {
   let dir = process.cwd();
   for (let i = 0; i < 8; i++) {
     const candidate = path.join(dir, ".env");
     if (fs.existsSync(candidate)) {
       dotenv.config({ path: candidate });
+      envFileDir = dir;
       return;
     }
     const parent = path.dirname(dir);
@@ -57,6 +60,10 @@ const envSchema = z.object({
   SCRAPER_CONTACT: z.string().default(""),
   CACHE_DIR: z.string().default(".cache"),
 
+  // Directory of market.csv / pop.csv / attention.csv for the nightly CSV
+  // source (the zero-API-key path). Unset = CSV sources report disabled.
+  CSV_SOURCE_DIR: optionalKey,
+
   DISCORD_WEBHOOK_URL: optionalKey,
   LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
 });
@@ -82,3 +89,14 @@ if (!parsed.success) {
 }
 
 export const env: Env = parsed.data;
+
+// pnpm --filter runs scripts from package directories, so relative paths in
+// .env would resolve differently per process. Anchor them where .env lives
+// (normally the repo root).
+const anchor = envFileDir ?? process.cwd();
+if (env.CSV_SOURCE_DIR && !path.isAbsolute(env.CSV_SOURCE_DIR)) {
+  env.CSV_SOURCE_DIR = path.resolve(anchor, env.CSV_SOURCE_DIR);
+}
+if (!path.isAbsolute(env.CACHE_DIR)) {
+  env.CACHE_DIR = path.resolve(anchor, env.CACHE_DIR);
+}
