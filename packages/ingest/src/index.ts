@@ -2,6 +2,8 @@ export * from "./types";
 export * from "./registry";
 export * from "./run-ingest";
 export * from "./import";
+export * from "./jobs/score";
+export * from "./jobs/deliver";
 export { parseGradePopTable } from "./pop-table";
 export { fetchTextCached, fetchJson, throttled, sleep, userAgent } from "./http";
 export { CsvMarketSource, CsvPopSource, CsvAttentionSource } from "./adapters/csv";

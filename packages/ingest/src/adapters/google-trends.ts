@@ -1,3 +1,4 @@
+/// <reference path="../google-trends-api.d.ts" />
 import googleTrends from "google-trends-api";
 import { env } from "@grailwatch/shared/env";
 import { isoDate } from "@grailwatch/shared/dates";
